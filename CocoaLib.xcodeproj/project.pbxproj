@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A90B743D13B8B635003B70CB /* AGKSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = A90B743B13B8B635003B70CB /* AGKSecurity.h */; };
+		A90B743E13B8B635003B70CB /* AGKSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = A90B743C13B8B635003B70CB /* AGKSecurity.m */; };
+		A90B744613B8CD07003B70CB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90B744313B8C94F003B70CB /* Security.framework */; };
+		A90B744713B8CD0D003B70CB /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D1283B13B3EF890036FE54 /* CFNetwork.framework */; };
+		A90B744A13B8D196003B70CB /* AGKSecurityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A90B744913B8D196003B70CB /* AGKSecurityTest.m */; };
+		A90B744B13B8D6EF003B70CB /* AGKSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = A90B743C13B8B635003B70CB /* AGKSecurity.m */; };
+		A90B744C13B8D764003B70CB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90B744313B8C94F003B70CB /* Security.framework */; };
 		A93377D713AD2046003E619F /* NSFileManagerExtrasTest.h in Headers */ = {isa = PBXBuildFile; fileRef = A93377D513AD2046003E619F /* NSFileManagerExtrasTest.h */; };
 		A93377DA13AD2121003E619F /* NSFileManagerExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A93377D613AD2046003E619F /* NSFileManagerExtrasTest.m */; };
 		A93377DB13AD225D003E619F /* NSFileManager+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A9396B1913A4152D005BA2C8 /* NSFileManager+Extras.m */; };
@@ -48,9 +55,7 @@
 		A933782E13AD2E00003E619F /* NSXMLParser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A933781613AD2DFF003E619F /* NSXMLParser+Extras.m */; };
 		A9396AEA13A41443005BA2C8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9396AE913A41443005BA2C8 /* Foundation.framework */; };
 		A9396AF513A41443005BA2C8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9396AF413A41443005BA2C8 /* SenTestingKit.framework */; };
-		A9396AF713A41443005BA2C8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9396AF613A41443005BA2C8 /* UIKit.framework */; };
 		A9396AF813A41443005BA2C8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9396AE913A41443005BA2C8 /* Foundation.framework */; };
-		A9396AFA13A41443005BA2C8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9396AF913A41443005BA2C8 /* CoreGraphics.framework */; };
 		A9396AFD13A41443005BA2C8 /* libCocoaLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9396AE613A41443005BA2C8 /* libCocoaLib.a */; };
 		A9396B0313A41443005BA2C8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9396B0113A41443005BA2C8 /* InfoPlist.strings */; };
 		A9396B0513A41443005BA2C8 /* CocoaLibTests.h in Resources */ = {isa = PBXBuildFile; fileRef = A9396B0413A41443005BA2C8 /* CocoaLibTests.h */; };
@@ -65,7 +70,6 @@
 		A9BD713413AE297B007F0C08 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = A933781213AD2DFE003E619F /* NSString+URLEncode.m */; };
 		A9D1283913B3EF6A0036FE54 /* AGKTCPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A9D1283713B3EF6A0036FE54 /* AGKTCPConnection.h */; };
 		A9D1283A13B3EF6A0036FE54 /* AGKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D1283813B3EF6A0036FE54 /* AGKTCPConnection.m */; };
-		A9D1283C13B3EF890036FE54 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D1283B13B3EF890036FE54 /* CFNetwork.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +83,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A90B743B13B8B635003B70CB /* AGKSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKSecurity.h; sourceTree = "<group>"; };
+		A90B743C13B8B635003B70CB /* AGKSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKSecurity.m; sourceTree = "<group>"; };
+		A90B744313B8C94F003B70CB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A90B744813B8D196003B70CB /* AGKSecurityTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKSecurityTest.h; sourceTree = "<group>"; };
+		A90B744913B8D196003B70CB /* AGKSecurityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKSecurityTest.m; sourceTree = "<group>"; };
 		A93377D513AD2046003E619F /* NSFileManagerExtrasTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSFileManagerExtrasTest.h; sourceTree = "<group>"; };
 		A93377D613AD2046003E619F /* NSFileManagerExtrasTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerExtrasTest.m; sourceTree = "<group>"; };
 		A93377DF13AD22DA003E619F /* NSDate+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extras.h"; sourceTree = "<group>"; };
@@ -118,8 +127,6 @@
 		A9396AED13A41443005BA2C8 /* CocoaLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CocoaLib-Prefix.pch"; sourceTree = "<group>"; };
 		A9396AF313A41443005BA2C8 /* CocoaLibTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaLibTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9396AF413A41443005BA2C8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		A9396AF613A41443005BA2C8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		A9396AF913A41443005BA2C8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		A9396B0013A41443005BA2C8 /* CocoaLibTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CocoaLibTests-Info.plist"; sourceTree = "<group>"; };
 		A9396B0213A41443005BA2C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A9396B0413A41443005BA2C8 /* CocoaLibTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocoaLibTests.h; sourceTree = "<group>"; };
@@ -142,8 +149,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9D1283C13B3EF890036FE54 /* CFNetwork.framework in Frameworks */,
 				A9396AEA13A41443005BA2C8 /* Foundation.framework in Frameworks */,
+				A90B744613B8CD07003B70CB /* Security.framework in Frameworks */,
+				A90B744713B8CD0D003B70CB /* CFNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,10 +159,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A90B744C13B8D764003B70CB /* Security.framework in Frameworks */,
 				A9396AF513A41443005BA2C8 /* SenTestingKit.framework in Frameworks */,
-				A9396AF713A41443005BA2C8 /* UIKit.framework in Frameworks */,
 				A9396AF813A41443005BA2C8 /* Foundation.framework in Frameworks */,
-				A9396AFA13A41443005BA2C8 /* CoreGraphics.framework in Frameworks */,
 				A9396AFD13A41443005BA2C8 /* libCocoaLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,7 +172,6 @@
 		A9396ADB13A41443005BA2C8 = {
 			isa = PBXGroup;
 			children = (
-				A9D1283B13B3EF890036FE54 /* CFNetwork.framework */,
 				A9396AEB13A41443005BA2C8 /* CocoaLib */,
 				A9396AFE13A41443005BA2C8 /* CocoaLibTests */,
 				A9396AE813A41443005BA2C8 /* Frameworks */,
@@ -185,10 +191,10 @@
 		A9396AE813A41443005BA2C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A90B744313B8C94F003B70CB /* Security.framework */,
+				A9D1283B13B3EF890036FE54 /* CFNetwork.framework */,
 				A9396AE913A41443005BA2C8 /* Foundation.framework */,
 				A9396AF413A41443005BA2C8 /* SenTestingKit.framework */,
-				A9396AF613A41443005BA2C8 /* UIKit.framework */,
-				A9396AF913A41443005BA2C8 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,6 +241,8 @@
 				A93377F813AD26E2003E619F /* NSDictionary+Extras.m */,
 				A9D1283713B3EF6A0036FE54 /* AGKTCPConnection.h */,
 				A9D1283813B3EF6A0036FE54 /* AGKTCPConnection.m */,
+				A90B743B13B8B635003B70CB /* AGKSecurity.h */,
+				A90B743C13B8B635003B70CB /* AGKSecurity.m */,
 			);
 			path = CocoaLib;
 			sourceTree = "<group>";
@@ -259,6 +267,8 @@
 				A93377D613AD2046003E619F /* NSFileManagerExtrasTest.m */,
 				A9BD713013AE28F6007F0C08 /* NSStringExtrasTest.h */,
 				A9BD713113AE28F6007F0C08 /* NSStringExtrasTest.m */,
+				A90B744813B8D196003B70CB /* AGKSecurityTest.h */,
+				A90B744913B8D196003B70CB /* AGKSecurityTest.m */,
 			);
 			path = CocoaLibTests;
 			sourceTree = "<group>";
@@ -300,6 +310,7 @@
 				A933782B13AD2E00003E619F /* NSURLConnection+Extras.h in Headers */,
 				A933782D13AD2E00003E619F /* NSXMLParser+Extras.h in Headers */,
 				A9D1283913B3EF6A0036FE54 /* AGKTCPConnection.h in Headers */,
+				A90B743D13B8B635003B70CB /* AGKSecurity.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +431,7 @@
 				A933782C13AD2E00003E619F /* NSURLConnection+Extras.m in Sources */,
 				A933782E13AD2E00003E619F /* NSXMLParser+Extras.m in Sources */,
 				A9D1283A13B3EF6A0036FE54 /* AGKTCPConnection.m in Sources */,
+				A90B743E13B8B635003B70CB /* AGKSecurity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +449,8 @@
 				A93377F213AD22DB003E619F /* NSArray+Extras.m in Sources */,
 				A9BD713213AE28F6007F0C08 /* NSStringExtrasTest.m in Sources */,
 				A9BD713413AE297B007F0C08 /* NSString+URLEncode.m in Sources */,
+				A90B744A13B8D196003B70CB /* AGKSecurityTest.m in Sources */,
+				A90B744B13B8D6EF003B70CB /* AGKSecurity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +542,10 @@
 				DSTROOT = /tmp/CocoaLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CocoaLib/CocoaLib-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/lib/system\"",
+				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -540,6 +558,10 @@
 				DSTROOT = /tmp/CocoaLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CocoaLib/CocoaLib-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/lib/system\"",
+				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
