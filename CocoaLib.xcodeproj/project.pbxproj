@@ -66,6 +66,7 @@
 		A9396B1A13A4152D005BA2C8 /* NSFileManager+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A9396B1913A4152D005BA2C8 /* NSFileManager+Extras.m */; };
 		A9396B1D13A48A53005BA2C8 /* AGKTests.h in Headers */ = {isa = PBXBuildFile; fileRef = A9396B1B13A48A53005BA2C8 /* AGKTests.h */; };
 		A9396B1F13A48AF8005BA2C8 /* AGKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A9396B1C13A48A53005BA2C8 /* AGKTests.m */; };
+		A94D3BB313B9C92C008F6A92 /* NSDataExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D3BB213B9C92C008F6A92 /* NSDataExtrasTest.m */; };
 		A9BD713213AE28F6007F0C08 /* NSStringExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BD713113AE28F6007F0C08 /* NSStringExtrasTest.m */; };
 		A9BD713413AE297B007F0C08 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = A933781213AD2DFE003E619F /* NSString+URLEncode.m */; };
 		A9D1283913B3EF6A0036FE54 /* AGKTCPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A9D1283713B3EF6A0036FE54 /* AGKTCPConnection.h */; };
@@ -137,6 +138,8 @@
 		A9396B1913A4152D005BA2C8 /* NSFileManager+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Extras.m"; sourceTree = "<group>"; };
 		A9396B1B13A48A53005BA2C8 /* AGKTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKTests.h; sourceTree = "<group>"; };
 		A9396B1C13A48A53005BA2C8 /* AGKTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKTests.m; sourceTree = "<group>"; };
+		A94D3BB113B9C92C008F6A92 /* NSDataExtrasTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataExtrasTest.h; sourceTree = "<group>"; };
+		A94D3BB213B9C92C008F6A92 /* NSDataExtrasTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataExtrasTest.m; sourceTree = "<group>"; };
 		A9BD713013AE28F6007F0C08 /* NSStringExtrasTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringExtrasTest.h; sourceTree = "<group>"; };
 		A9BD713113AE28F6007F0C08 /* NSStringExtrasTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringExtrasTest.m; sourceTree = "<group>"; };
 		A9D1283713B3EF6A0036FE54 /* AGKTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKTCPConnection.h; sourceTree = "<group>"; };
@@ -202,6 +205,7 @@
 		A9396AEB13A41443005BA2C8 /* CocoaLib */ = {
 			isa = PBXGroup;
 			children = (
+				A9396AEC13A41443005BA2C8 /* Supporting Files */,
 				A933780113AD2DFB003E619F /* AGKFixArray.h */,
 				A933780213AD2DFC003E619F /* AGKFixArray.m */,
 				A933780313AD2DFC003E619F /* AGKMemURLProtocol.h */,
@@ -224,7 +228,6 @@
 				A933781413AD2DFF003E619F /* NSURLConnection+Extras.m */,
 				A933781513AD2DFF003E619F /* NSXMLParser+Extras.h */,
 				A933781613AD2DFF003E619F /* NSXMLParser+Extras.m */,
-				A9396AEC13A41443005BA2C8 /* Supporting Files */,
 				A9396B1313A414DA005BA2C8 /* AGK.h */,
 				A9396B1413A414DA005BA2C8 /* AGK.m */,
 				A9396B1713A4151D005BA2C8 /* NSFileManager+Extras.h */,
@@ -269,6 +272,8 @@
 				A9BD713113AE28F6007F0C08 /* NSStringExtrasTest.m */,
 				A90B744813B8D196003B70CB /* AGKSecurityTest.h */,
 				A90B744913B8D196003B70CB /* AGKSecurityTest.m */,
+				A94D3BB113B9C92C008F6A92 /* NSDataExtrasTest.h */,
+				A94D3BB213B9C92C008F6A92 /* NSDataExtrasTest.m */,
 			);
 			path = CocoaLibTests;
 			sourceTree = "<group>";
@@ -451,6 +456,7 @@
 				A9BD713413AE297B007F0C08 /* NSString+URLEncode.m in Sources */,
 				A90B744A13B8D196003B70CB /* AGKSecurityTest.m in Sources */,
 				A90B744B13B8D6EF003B70CB /* AGKSecurity.m in Sources */,
+				A94D3BB313B9C92C008F6A92 /* NSDataExtrasTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

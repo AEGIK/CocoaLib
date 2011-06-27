@@ -20,4 +20,13 @@
     NSLog(@"%@ %@", data, key);
 }
 
+- (void)testKeyGen
+{
+    NSData *data = [NSData dataWithHexString:@"348c89dbcbd32b2f32d814b8116e84cf2b17347ebc1800181c"];
+    NSData *key = [[@"passwordPASSWORDpassword" dataUsingEncoding:NSASCIIStringEncoding] sha256PBKDF2KeyWithSalt:@"saltSALTsaltSALTsaltSALTsaltSALTsalt"
+                                                                                                      iterations:4096
+                                                                                                          length:25];
+    STAssertEqualObjects(data, key, @"Keygen failed");
+}
+
 @end

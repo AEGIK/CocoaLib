@@ -11,7 +11,8 @@
 #import "AGK.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
-
+#import <CommonCrypto/CommonHMAC.h>
+#import <CommonCrypto/CommonKeyDerivation.h>
 
 @interface RSAKey() {}
 @property (nonatomic, assign) SecKeyRef secKey;
@@ -89,6 +90,7 @@
 }
 
 @end
+
 @implementation NSData (AGKSecurity)
 
 - (NSData *)stripJavaRSAKey
@@ -142,6 +144,10 @@
 
 - (NSData *)rsaEncrypt:(RSAKey *)key
 {
+    if ([self length] > [key maxDecryptedSize]) {
+        NSLog(@"Failed encryption, data too long");
+        return nil;
+    }
     uint8_t *encryptedData = calloc([key maxEncryptedSize], sizeof(uint8_t));
     size_t cipherLength = [key maxEncryptedSize];
     NSData *result = nil;
@@ -149,7 +155,7 @@
     if (status == noErr) {
         result = [[NSData alloc] initWithBytes:encryptedData length:cipherLength];
     } else {
-        NSLog(@"Failed decryption %ld", status);
+        NSLog(@"Failed encryption %ld %d", status, [self length]);
     }
     free(encryptedData);
     return result;
@@ -171,6 +177,23 @@
     CC_SHA256_Update(&sha, [self bytes], [self length]);
     CC_SHA256_Final(result, &sha);
     return [[NSData alloc] initWithBytes:result length:32];
+}
+
+- (NSData *)sha256PBKDF2KeyWithSalt:(NSString *)salt iterations:(NSUInteger)iterations length:(NSUInteger)length;
+{
+    return [self pbkdf2KeyWithAlgorithm:kCCPRFHmacAlgSHA256 salt:salt iterations:iterations length:length];
+}
+            
+- (NSData *)pbkdf2KeyWithAlgorithm:(CCHmacAlgorithm)algorithm salt:(NSString *)salt iterations:(NSUInteger)iterations length:(NSUInteger)length
+{
+    NSData *saltData = [salt dataUsingEncoding:NSUTF8StringEncoding];
+    uint8_t *derivedKey = (uint8_t *)malloc(length);
+    int result = CCKeyDerivationPBKDF(kCCPBKDF2, [self bytes], [self length], [saltData bytes], [saltData length], algorithm, iterations, derivedKey, length);
+    if (result != noErr) {
+        NSLog(@"Error in key derivation: %d", result);
+        return nil;
+    }
+    return [[NSData alloc] initWithBytesNoCopy:derivedKey length:length freeWhenDone:YES];
 }
 
 @end
