@@ -7,6 +7,8 @@
 //
 
 #import "AGKTCPConnection.h"
+#import "NSData+Extras.h"
+#import "AGK.h"
 #import <CFNetwork/CFNetwork.h>
 
 @interface _AGKTCPConnectionIO : NSObject<NSStreamDelegate> {}
@@ -40,8 +42,6 @@
 - (void)runOnNetworkThreadSelector:(SEL)selector object:(id)object;
 - (void)runOnMainThreadSelector:(SEL)selector object:(id)object;
 - (void)closeOnNetworkThread:(AGKTCPConnectionClose)closeReason;
-@property (nonatomic, strong) NSString *url;
-@property (nonatomic, assign) NSUInteger port;
 @property (nonatomic, strong) _AGKTCPConnectionIn *input;
 @property (nonatomic, strong) _AGKTCPConnectionOut *output;
 @property (nonatomic, assign, readwrite, getter = isOpen) BOOL open;
@@ -49,8 +49,8 @@
 @end
 
 @implementation AGKTCPConnection
-@synthesize url = _url, port = _port, input = _input, output = _output, open = _open, delegate = _delegate;
-@synthesize connected = _connected;
+@synthesize host = _host, port = _port, input = _input, output = _output, open = _open, delegate = _delegate;
+@synthesize connected = _connected, reader = _reader, writer = _writer;
 
 + (void)runNetworkThread
 {
@@ -72,14 +72,16 @@
     return thread;
 }
 
-- (id)initWithHost:(NSString *)url port:(NSUInteger)port
+- (id)initWithHost:(NSString *)host port:(NSUInteger)port
 {
     if ((self = [super init])) {
-        _url = [url copy];
+        _host = [host copy];
         _port = port;
     }
     return self;
 }
+
+#pragma mark - Threading helpers
 
 - (void)runOnMainThreadSelector:(SEL)selector object:(id)object
 {
@@ -91,6 +93,8 @@
     [self performSelector:selector onThread:[AGKTCPConnection networkThread] withObject:object waitUntilDone:NO];
 }
 
+#pragma mark - Data sending
+
 - (void)sendDataNetworkThread:(NSData *)data
 {
     [[self output] addData:data];
@@ -98,13 +102,27 @@
 
 - (void)sendData:(NSData *)data
 {
-    [self runOnNetworkThreadSelector:@selector(sendDataNetworkThread:) object:data];
+    if (data && [self writer]) {
+        NSData *prepend = [[self writer] prependData:data];
+        if (prepend) [self runOnNetworkThreadSelector:@selector(sendDataNetworkThread:) object:prepend];
+        NSData *transformedData = [[self writer] transformData:data];
+        if (transformedData) [self runOnNetworkThreadSelector:@selector(sendDataNetworkThread:) object:transformedData];
+        NSData *append = [[self writer] appendData:data];
+        if (append) [self runOnNetworkThreadSelector:@selector(sendDataNetworkThread:) object:append];
+    } else {
+        [self runOnNetworkThreadSelector:@selector(sendDataNetworkThread:) object:data];
+    }
 }
+
+#pragma mark - Data reading
 
 - (void)readBytes:(NSData *)data
 {
     if ([[self delegate] respondsToSelector:@selector(connection:receivedData:)]) {
-        [[self delegate] connection:self receivedData:data];
+        if ([self reader]) {
+            data = [[self reader] assemblePacket:data];
+        }
+        if (data) [[self delegate] connection:self receivedData:data];
     }    
 }
      
@@ -124,7 +142,7 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     CFReadStreamRef readStream = NULL;
     CFWriteStreamRef writeStream = NULL;
-    CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)[self url], [self port], &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)[self host], [self port], &readStream, &writeStream);
     [self setInput:[[_AGKTCPConnectionIn alloc] initWithStream:(__bridge_transfer NSStream *)readStream parent:self]];
     [self setOutput:[[_AGKTCPConnectionOut alloc] initWithStream:(__bridge_transfer NSStream *)writeStream parent:self]];
     [self performSelector:@selector(loginTimeoutOnNetworkThread) withObject:nil afterDelay:10];
@@ -196,7 +214,7 @@
 
 - (void)streamErrorOnNetworkThread:(_AGKTCPConnectionIO *)stream
 {
-    if ([self isCurrentStream:stream]) [self closeOnNetworkThread:AGKTCPConnectionCloseGeneralError];
+    if ([self isCurrentStream:stream]) [self closeOnNetworkThread:AGKTCPConnectionCloseStreamError];
 }
 
 - (void)close
@@ -206,6 +224,10 @@
     [self runOnNetworkThreadSelector:@selector(closeRequestNetworkThread) object:nil];
 }
 
+- (NSString *)hostPortDescription
+{
+    return STRFORMAT(@"%@:%d", [self host], [self port]);
+}
 @end
 
 @implementation _AGKTCPConnectionIO
@@ -294,9 +316,13 @@
         return;
     }
     const void *pointer = [currentData bytes] + [self offset];
-    NSUInteger sent = [(NSOutputStream *)[self stream] write:pointer maxLength:[currentData length] - [self offset]];
-    NSUInteger newOffset = sent + [self offset];
-    NSLog(@"wrote %d", sent);
+    NSInteger sent = [(NSOutputStream *)[self stream] write:pointer maxLength:[currentData length] - [self offset]];
+    if (sent < 0) {
+        [self closeOnStreamEnd];
+        [self setOutgoingPackets:nil];
+        return;
+    }
+    NSUInteger newOffset = (NSUInteger)sent + [self offset];
     if (newOffset == [currentData length]) {
         [self setOffset:0];
         [[self outgoingPackets] removeObjectAtIndex:0];
@@ -352,7 +378,7 @@
             [self closeOnStreamEnd];
             return;
         }
-        NSData *data = [[NSData alloc] initWithBytes:buffer length:read];
+        NSData *data = [[NSData alloc] initWithBytes:buffer length:(NSUInteger)read];
         [[self parent] readBytesOnNetworkThread:data];
         if (![(NSInputStream *)[self stream] hasBytesAvailable]) return;
     }
@@ -372,3 +398,100 @@
 
 @end
 
+@interface AGKTCPConnectionStandardReader() {}
+@property (nonatomic, assign) NSUInteger headerSize;
+@property (nonatomic, assign) NSUInteger length;
+@property (nonatomic, strong) NSMutableData *payload;
+@end
+
+@implementation AGKTCPConnectionStandardReader
+@synthesize headerSize = _headerSize, payload = _payload, length = _length;
+
+- (id)initWithHeaderSize:(NSUInteger)headerSize
+{
+    if ((self = [super init])) {
+        _headerSize = headerSize;
+        _payload = [[NSMutableData alloc] initWithCapacity:10];
+    }
+    return self;
+}
+
+- (void)reset
+{
+    [[self payload] setLength:0];
+    [self setLength:0];
+}
+
+- (void)calculateLength
+{
+    NSLog(@"Calc %@", [self payload]);
+    if ([[self payload] length] < [self headerSize]) return;
+    uint8_t *bytes = (uint8_t *)[[self payload] mutableBytes];
+    NSUInteger length = 0;
+    for (NSUInteger i = 0; i < [self headerSize]; i++) {
+        length <<= 8;
+        length |= bytes[i];
+    }
+    NSLog(@"Length: %d", length);
+    [self setLength:length];
+}
+
+- (NSData *)assemblePacket:(NSData *)data
+{
+    if (![self length]) {
+        NSLog(@"Go! %@", [self payload]);
+        [[self payload] appendData:data];
+        [self calculateLength];
+        if (![self length]) return nil;
+    }
+    NSUInteger end = [self headerSize] + [self length];
+    if ([[self payload] length] < end) return nil;
+    NSData *packet = [[self payload] subdataWithRange:NSMakeRange([self headerSize], [self length])];
+    if (end == [[self payload] length]) {
+        [[self payload] setLength:0];
+    } else {
+        NSData *tailData = [[self payload] subdataWithRange:NSMakeRange(end, [[self payload] length] - end)];
+        [[self payload] setData:tailData];
+    }
+    [self setLength:0];
+    return packet;
+}
+@end
+
+@interface AGKTCPConnectionStandardWriter() {}
+@property (nonatomic, assign) NSUInteger headerSize;
+@end
+
+@implementation AGKTCPConnectionStandardWriter
+
+@synthesize headerSize = _headerSize;
+
+- (id)initWithHeaderSize:(NSUInteger)headerSize
+{
+    if ((self = [super init])) {
+        _headerSize = headerSize;
+    }
+    return self;
+}
+
+- (NSData *)appendData:(NSData *)data
+{
+    return nil;
+}
+
+- (NSData *)prependData:(NSData *)data
+{
+    NSMutableData *prepend = [[NSMutableData alloc] initWithCapacity:[self headerSize]];
+    NSUInteger length = [data length];
+    for (int i = (NSInteger)[self headerSize] * 8 - 8; i >= 0; i -= 8) {
+        [prepend writeByte:(length >> i) & 0xFF];
+    }
+    return prepend;
+}
+
+- (NSData *)transformData:(NSData *)data
+{
+    return data;
+}
+
+@end

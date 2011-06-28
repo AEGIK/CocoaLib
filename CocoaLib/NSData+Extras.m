@@ -65,10 +65,11 @@ inline static unsigned char hexCharToNibble(char c) {
 
 @implementation NSMutableData (Extras)
 
-- (void)writeByte:(uint8_t)byte
+- (void)writeByte:(NSUInteger)byte
 {
+    NSAssert(byte < 0x100, @"Byte overflow");
     uint8_t array[1];
-    array[0] = byte;
+    array[0] = (uint8_t)byte;
     [self appendBytes:array length:1];
 }
 

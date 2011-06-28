@@ -29,4 +29,26 @@
     STAssertEqualObjects(data, key, @"Keygen failed");
 }
 
+- (void)testAESDecrypt
+{
+    NSData *iv = HEXDATA("000102030405060708090A0B0C0D0E0F");
+    NSData *key = [NSData dataWithHexString:@"603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4"];
+    NSData *encryptedData = [NSData dataWithHexString:@"abbebef2d0030b9fa9cce2b3655102dc"];
+    NSData *decryptedData = [encryptedData aesDecrypt:key iv:iv]; 
+    STAssertEqualObjects(decryptedData, [@"encrypt me" dataUsingEncoding:NSASCIIStringEncoding], @"Decrypt failed");
+    NSData *someData = [@"encrypt silly little me" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *newIV = nil;
+    encryptedData = [someData aesEncrypt:key iv:&newIV];
+    decryptedData = [encryptedData aesDecrypt:key iv:newIV];
+    STAssertEqualObjects(decryptedData, someData, @"Encrypt failed");
+}
+- (void)testAESDecryptSHA256Signed
+{
+    NSData *key = HEXDATA("95C76B058A4B8B01D07492A19B275A9413C366B48D113CA142570FF178A16E56");
+    NSData *signKey = HEXDATA("63AB0DB9E1AEB15826271754F759848866D976AF5BDF93DB9F94A48520544853");
+    NSData *encryptedData = HEXDATA("6085A5639341210ADA49A5976B18B694CF242FE14E71880995DD740DF94ECB65B1E19CE359D9CB32");
+    NSData *expectedResult = [@"FOOBAR" dataUsingEncoding:NSUTF8StringEncoding];
+    STAssertEqualObjects(expectedResult, [encryptedData aesDecryptUsingKey:key sha256SignedUsing:signKey], @"Should match");
+    STAssertEqualObjects(expectedResult, [[expectedResult aesEncryptUsingKey:key sha256SignedUsing:signKey] aesDecryptUsingKey:key sha256SignedUsing:signKey], @"Should match");
+}
 @end

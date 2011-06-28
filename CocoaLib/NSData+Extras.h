@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#define HEXDATA(x) ([NSData dataWithHexString:@"" x])
 
 @interface NSData(Extras)
 + (NSData *)dataWithHexString:(NSString *)hexString;
@@ -17,7 +18,7 @@
 @end
 
 @interface NSMutableData (Extras)
-- (void)writeByte:(uint8_t)byte;
+- (void)writeByte:(NSUInteger)byte;
 - (void)writeBigEndianShort:(uint16_t)aShort;
 - (void)writeBigEndianInteger:(uint32_t)anInteger;
 - (void)writeBigEndianLong:(uint64_t)aLong;

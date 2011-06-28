@@ -21,7 +21,7 @@
 - (void)removeObserver:self;
 - (void)removeObserver:(id)observer forObject:(id)observed;
 - (void)registerObserver:(id)observer forObject:(id)object selector:(SEL)selector forKeyPath:(NSString *)keypath options:(NSKeyValueObservingOptions)options sendValue:(BOOL)sendValue;
-@property (nonatomic, retain) NSMutableDictionary *observers;
+@property (nonatomic, strong) NSMutableDictionary *observers;
 
 @end
 
@@ -95,7 +95,7 @@ static AGKObservationCenter *sharedInstance = nil;
 		[observation setObserver:observer];
 		[observation setKeyPath:keypath];
 		[observation setSendValue:sendValue];
-		NSValue *key = [NSValue valueWithPointer:objc_unretainedPointer(observer)];
+		NSValue *key = [NSValue valueWithPointer:(__bridge void *)observer];
 		NSMutableArray *otherObservers = [[self observers] objectForKey:key];
 		if (!otherObservers) {
 			otherObservers = [[NSMutableArray alloc] initWithCapacity:2];
@@ -110,7 +110,7 @@ static AGKObservationCenter *sharedInstance = nil;
 {
 	if (observed == nil) return;
 	@synchronized(self) {
-		NSValue *key = [NSValue valueWithPointer:objc_unretainedPointer(observer)];
+		NSValue *key = [NSValue valueWithPointer:(__bridge void *)observer];
 		NSMutableArray *currentObservers = [[self observers] objectForKey:key];
 		if (!currentObservers) return;
 		for (AGKObservation *observation in [NSArray arrayWithArray:currentObservers]) {
@@ -127,7 +127,7 @@ static AGKObservationCenter *sharedInstance = nil;
 }
 - (void)removeObserver:(id)observer {
 	@synchronized(self) {
-		NSValue *key = [NSValue valueWithPointer:objc_unretainedPointer(observer)];
+		NSValue *key = [NSValue valueWithPointer:(__bridge void *)observer];
 		for (AGKObservation *observation in [[self observers] objectForKey:key]) {
 			[observation cancel];
 		}

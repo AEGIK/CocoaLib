@@ -22,13 +22,13 @@ static const NSTimeInterval DefaultTimeout = 10.0;
 - (id)initWithConnection:(NSURLConnection *)connection forCenter:(_AGKURLConnectionCenter *)center;
 @end
 
-#ifndef NDEBUG
+#ifdef DEBUG
 static BOOL failAll = NO;
 #endif
 
 @implementation NSURLConnection(Extras)
 
-#ifndef NDEBUG
+#ifdef DEBUG
 + (void)failAllConnections 
 {
     failAll = YES;
@@ -80,7 +80,7 @@ static BOOL failAll = NO;
                    responseReceived:(ResponseReceived)responseBlock
                          completion:(DownloadCompletion)completion {
     
-#ifndef NDEBUG
+#ifdef DEBUG
     if (failAll) {
         if (completion) completion(nil, nil);
         return nil;
@@ -188,7 +188,7 @@ static BOOL failAll = NO;
                 timeoutInterval:(NSTimeInterval)timeoutInterval 
 {
     
-#ifndef NDEBUG
+#ifdef DEBUG
     if (failAll) {
         if (handler) handler(nil, nil);
         return nil;
@@ -264,7 +264,7 @@ static BOOL failAll = NO;
 
 - (NSURLConnectionHandle *)schedule:(NSURLConnection *)connection usingData:(_AGKBaseData *)data responseReceived:(ResponseReceived)responseReceived
 {
-    [[self currentConnections] setObject:data forKey:[NSValue valueWithPointer:objc_unretainedPointer(connection)]];
+    [[self currentConnections] setObject:data forKey:[NSValue valueWithPointer:(__bridge void *)connection]];
     [data setConnection:connection];
     [data setResponseBlock:responseReceived];
     AGKTrace(@"Request \"%@\" sent.", [data requestString]);
@@ -290,7 +290,7 @@ static BOOL failAll = NO;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConnection {
-    NSValue *pointer = [NSValue valueWithPointer:objc_unretainedPointer(aConnection)];
+    NSValue *pointer = [NSValue valueWithPointer:(__bridge void *)aConnection];
     id data = [[self currentConnections] objectForKey:pointer];
     [[self currentConnections] removeObjectForKey:pointer];
     if (!data) return;
@@ -314,7 +314,7 @@ static BOOL failAll = NO;
 
 - (void)connection:(NSURLConnection *)aConnection didFailWithError:(NSError *)error 
 {
-    NSValue *pointer = [NSValue valueWithPointer:objc_unretainedPointer(aConnection)];
+    NSValue *pointer = [NSValue valueWithPointer:(__bridge void *)aConnection];
     id data = [[self currentConnections] objectForKey:pointer];
     [[self currentConnections] removeObjectForKey:pointer];
     if (!data) return;
@@ -326,7 +326,7 @@ static BOOL failAll = NO;
 
 - (void)connection:(NSURLConnection *)aConnection didReceiveData:(NSData *)theData 
 {
-    id data = [[self currentConnections] objectForKey:[NSValue valueWithPointer:objc_unretainedPointer(aConnection)]];
+    id data = [[self currentConnections] objectForKey:[NSValue valueWithPointer:(__bridge void *)aConnection]];
     if (data) [self connection:data receivedData:theData];
 }
 
@@ -350,7 +350,7 @@ static BOOL failAll = NO;
 
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response 
 {
-    id data = [[self currentConnections] objectForKey:[NSValue valueWithPointer:objc_unretainedPointer(aConnection)]];
+    id data = [[self currentConnections] objectForKey:[NSValue valueWithPointer:(__bridge void *)aConnection]];
     if ([data responseBlock]) {
         [data responseBlock](response);
     }
@@ -541,7 +541,7 @@ static BOOL failAll = NO;
 - (id)initWithConnection:(NSURLConnection *)connection forCenter:(AGKRemoteLoadCenter *)center 
 {
     if ((self = [super init])) {
-        _key = [NSValue valueWithPointer:objc_unretainedPointer(connection)];
+        _key = [NSValue valueWithPointer:(__bridge void *)connection];
         _owner = center;
     }
     return self;

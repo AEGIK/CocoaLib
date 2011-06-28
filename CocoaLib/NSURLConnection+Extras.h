@@ -19,7 +19,7 @@ typedef void (^RequestModifier)(NSMutableURLRequest *request);
 
 @interface NSURLConnection(Extras) 
 
-#ifndef NDEBUG
+#ifdef DEBUG
 + (void)failAllConnections;
 #endif
 

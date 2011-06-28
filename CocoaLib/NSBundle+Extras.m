@@ -10,14 +10,16 @@
 
 @implementation NSBundle(Extras)
 
-+ (NSString *)version {
-	CFStringRef appVersion = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle() , (CFStringRef)@"CFBundleShortVersionString");
-	return appVersion ? objc_unretainedObject(appVersion) : @"1.0";
++ (NSString *)version 
+{
+    NSString *appVersion = (__bridge NSString *)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle() , (__bridge CFStringRef)@"CFBundleShortVersionString");
+	return appVersion ? appVersion : @"1.0";
 }
 
-+ (NSString *)build {
-	CFStringRef build = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), (CFStringRef)@"CFBundleVersion");
-	return build ? objc_unretainedObject(build) : @"1";
++ (NSString *)build 
+{
+	NSString *build = (__bridge NSString *)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), (__bridge CFStringRef)@"CFBundleVersion");
+	return build ? build : @"1";
 }
 
 @end

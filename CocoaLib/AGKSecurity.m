@@ -9,6 +9,7 @@
 #import <Security/Security.h>
 #import "AGKSecurity.h"
 #import "AGK.h"
+#import "NSData+Extras.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonHMAC.h>
@@ -85,7 +86,6 @@
 
 - (void)dealloc
 {
-    NSLog(@"RSA key death");
     if (_secKey) CFRelease(_secKey);
 }
 
@@ -169,6 +169,22 @@
     return [data rsaEncrypt:key];
 }
 
+- (NSData *)hmacSHA256:(NSData *)signKey, ...
+{
+    CCHmacContext context;
+    CCHmacInit(&context, kCCHmacAlgSHA256, [signKey bytes], [signKey length]);
+    CCHmacUpdate(&context, [self bytes], [self length]);
+    va_list list;
+    va_start(list, signKey);
+    NSData *aData = nil;
+    while ((aData = va_arg(list, NSData *)) != nil) {
+        CCHmacUpdate(&context, [aData bytes], [aData length]);
+    }
+    uint8_t *mac = malloc(CC_SHA256_DIGEST_LENGTH);
+    CCHmacFinal(&context, mac);
+    return [[NSData alloc] initWithBytesNoCopy:mac length:8 freeWhenDone:YES];
+}
+
 - (NSData *)sha256
 {
     CC_SHA256_CTX sha;
@@ -194,6 +210,64 @@
         return nil;
     }
     return [[NSData alloc] initWithBytesNoCopy:derivedKey length:length freeWhenDone:YES];
+}
+
+- (NSData *)aesEncrypt:(NSData *)key iv:(NSData **)ivReturned
+{
+    uint8_t *ivBytes = malloc(16);
+    SecRandomCopyBytes(kSecRandomDefault, 16, ivBytes);
+    *ivReturned = [NSData dataWithBytesNoCopy:ivBytes length:16 freeWhenDone:YES]; 
+    return [self aesCrypt:key iv:ivBytes encrypt:YES];
+}
+
+- (NSData *)aesDecrypt:(NSData *)key iv:(NSData *)iv
+{
+    return [self aesCrypt:key iv:(uint8_t *)[iv bytes] encrypt:NO];
+}
+
+- (NSData *)aesCrypt:(NSData *)key iv:(uint8_t *)iv encrypt:(BOOL)encrypt
+{
+    size_t bufferSize = [self length] + kCCBlockSizeAES128;
+    size_t decryptedLength = 0;
+    uint8_t *destinationBuffer = malloc(bufferSize);
+    CCCryptorStatus ccStatus = CCCrypt(encrypt ? kCCEncrypt : kCCDecrypt, 
+                                       kCCAlgorithmAES128,
+                                       kCCOptionPKCS7Padding,
+                                       [key bytes],
+                                       [key length],
+                                       iv,
+                                       [self bytes],
+                                       [self length],
+                                       destinationBuffer,
+                                       bufferSize,
+                                       &decryptedLength);
+    if (ccStatus != kCCSuccess) {
+        AGKLog(encrypt ? @"Encryption failed: %d" : @"Decryption failed %d", ccStatus);
+        free(destinationBuffer);
+        return nil;
+    }
+    return [[NSData alloc] initWithBytesNoCopy:destinationBuffer length:decryptedLength freeWhenDone:YES];
+}
+
+- (NSData *)aesDecryptUsingKey:(NSData *)key sha256SignedUsing:(NSData *)signedKey
+{
+    NSData *hmac = [self subdataWithRange:NSMakeRange(0, 8)];
+    NSData *iv = [self subdataWithRange:NSMakeRange([self length] - 16, 16)];
+    NSData *encryptedData = [self subdataWithRange:NSMakeRange(8, [self length] - 24)];
+    NSData *hmacControl = [iv hmacSHA256:signedKey, encryptedData, nil];
+    if (![hmacControl isEqualToData:hmac]) {
+        AGKTrace(@"Mac mismatch %@ vs %@", hmac, hmacControl);
+        return nil;
+    }
+    return [encryptedData aesDecrypt:key iv:iv];
+}
+
+- (NSData *)aesEncryptUsingKey:(NSData *)key sha256SignedUsing:(NSData *)signedKey
+{
+    NSData *iv = nil;
+    NSData *encryptedData = [self aesEncrypt:key iv:&iv];
+    NSData *hmac = [iv hmacSHA256:signedKey, encryptedData, nil];
+    return [NSData dataWithDatas:hmac, encryptedData, iv, nil];
 }
 
 @end

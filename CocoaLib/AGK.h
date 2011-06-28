@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-#ifdef NDEBUG
-#define AGKTrace(format, ...)
-#else
+#ifdef DEBUG
 #define AGKTrace(format, ...) NSLog(@"[DEBUG] " format, ## __VA_ARGS__)
+#else
+#define AGKTrace(format, ...)
 #endif
+
+#define TODO() NSAssert(NO, @"%s not implemented", __PRETTY_FUNCTION__)
 
 #define AGKMark() AGKTrace(@"%s", __PRETTY_FUNCTION__)
 
@@ -28,3 +30,9 @@ NSArray *AGKLogs(void);
 #define NSDICT(...) [NSDictionary dictionaryWithObjectsAndKeys: __VA_ARGS__, nil]
 
 #define NSARRAY(...) [NSArray arrayWithObjects: __VA_ARGS__, nil]
+
+#define STRFORMAT(...) [NSString stringWithFormat: __VA_ARGS__, nil]
+
+#define STRB(x) (x ? @"YES" : @"NO")
+#define STRF(x) ([F(x) stringValue])
+#define STRN(x) ([N(x) stringValue])

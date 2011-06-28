@@ -13,11 +13,10 @@
 
 -(NSString *)urlEncode
 {
-    NSString *encodedString = objc_retainedObject(CFURLCreateStringByAddingPercentEscapes(NULL, objc_unretainedPointer(self),
-                                                                                          NULL,
-                                                                                          (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ",
-                                                                                          kCFStringEncodingUTF8));
-    return encodedString;
+    return (__bridge_transfer NSString *)(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef)self,
+                                                                                  NULL,
+                                                                                  (__bridge CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ",
+                                                                                  kCFStringEncodingUTF8));
 }
 
 - (NSString *)urlDecode 
