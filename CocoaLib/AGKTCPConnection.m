@@ -226,7 +226,7 @@
 
 - (NSString *)hostPortDescription
 {
-    return STRFORMAT(@"%@:%d", [self host], [self port]);
+    return NSFORMAT(@"%@:%d", [self host], [self port]);
 }
 @end
 

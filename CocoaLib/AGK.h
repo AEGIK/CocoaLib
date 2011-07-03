@@ -27,11 +27,11 @@ NSArray *AGKLogs(void);
 #define F(x) ([NSNumber numberWithDouble:(double)(x)])
 #define B(x) ([NSNumber numberWithBool:(bool)(x)])
 
-#define NSDICT(...) [NSDictionary dictionaryWithObjectsAndKeys: __VA_ARGS__, nil]
+#define NSDICT(...) [[NSDictionary alloc] initWithObjectsAndKeys: __VA_ARGS__, nil]
 
 #define NSARRAY(...) [NSArray arrayWithObjects: __VA_ARGS__, nil]
 
-#define STRFORMAT(...) [NSString stringWithFormat: __VA_ARGS__, nil]
+#define NSFORMAT(...) [NSString stringWithFormat: __VA_ARGS__, nil]
 
 #define STRB(x) (x ? @"YES" : @"NO")
 #define STRF(x) ([F(x) stringValue])

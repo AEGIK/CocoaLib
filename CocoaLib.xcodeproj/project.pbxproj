@@ -69,6 +69,8 @@
 		A94D3BB313B9C92C008F6A92 /* NSDataExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D3BB213B9C92C008F6A92 /* NSDataExtrasTest.m */; };
 		A9BD713213AE28F6007F0C08 /* NSStringExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BD713113AE28F6007F0C08 /* NSStringExtrasTest.m */; };
 		A9BD713413AE297B007F0C08 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = A933781213AD2DFE003E619F /* NSString+URLEncode.m */; };
+		A9C1961C13C0F900001BDBC8 /* AGKDataInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C1961A13C0F900001BDBC8 /* AGKDataInputStream.h */; };
+		A9C1961D13C0F900001BDBC8 /* AGKDataInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C1961B13C0F900001BDBC8 /* AGKDataInputStream.m */; };
 		A9D1283913B3EF6A0036FE54 /* AGKTCPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A9D1283713B3EF6A0036FE54 /* AGKTCPConnection.h */; };
 		A9D1283A13B3EF6A0036FE54 /* AGKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D1283813B3EF6A0036FE54 /* AGKTCPConnection.m */; };
 /* End PBXBuildFile section */
@@ -142,6 +144,8 @@
 		A94D3BB213B9C92C008F6A92 /* NSDataExtrasTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataExtrasTest.m; sourceTree = "<group>"; };
 		A9BD713013AE28F6007F0C08 /* NSStringExtrasTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringExtrasTest.h; sourceTree = "<group>"; };
 		A9BD713113AE28F6007F0C08 /* NSStringExtrasTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringExtrasTest.m; sourceTree = "<group>"; };
+		A9C1961A13C0F900001BDBC8 /* AGKDataInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKDataInputStream.h; sourceTree = "<group>"; };
+		A9C1961B13C0F900001BDBC8 /* AGKDataInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKDataInputStream.m; sourceTree = "<group>"; };
 		A9D1283713B3EF6A0036FE54 /* AGKTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKTCPConnection.h; sourceTree = "<group>"; };
 		A9D1283813B3EF6A0036FE54 /* AGKTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKTCPConnection.m; sourceTree = "<group>"; };
 		A9D1283B13B3EF890036FE54 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -205,6 +209,8 @@
 		A9396AEB13A41443005BA2C8 /* CocoaLib */ = {
 			isa = PBXGroup;
 			children = (
+				A9C1961A13C0F900001BDBC8 /* AGKDataInputStream.h */,
+				A9C1961B13C0F900001BDBC8 /* AGKDataInputStream.m */,
 				A9396AEC13A41443005BA2C8 /* Supporting Files */,
 				A933780113AD2DFB003E619F /* AGKFixArray.h */,
 				A933780213AD2DFC003E619F /* AGKFixArray.m */,
@@ -316,6 +322,7 @@
 				A933782D13AD2E00003E619F /* NSXMLParser+Extras.h in Headers */,
 				A9D1283913B3EF6A0036FE54 /* AGKTCPConnection.h in Headers */,
 				A90B743D13B8B635003B70CB /* AGKSecurity.h in Headers */,
+				A9C1961C13C0F900001BDBC8 /* AGKDataInputStream.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +444,7 @@
 				A933782E13AD2E00003E619F /* NSXMLParser+Extras.m in Sources */,
 				A9D1283A13B3EF6A0036FE54 /* AGKTCPConnection.m in Sources */,
 				A90B743E13B8B635003B70CB /* AGKSecurity.m in Sources */,
+				A9C1961D13C0F900001BDBC8 /* AGKDataInputStream.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
