@@ -39,12 +39,17 @@
     return [self current] + bytesToRead <= [self end];
 }
 
-- (NSInteger)readShort
+- (NSInteger)readUnsignedShort
 {
     if (![self mayRead:2]) return -1;
     uint8_t hiByte = *(_current++);
     uint8_t loByte = *(_current++);
     return hiByte << 8 | loByte;
+}
+
+- (BOOL)hasData
+{
+    return [self mayRead:1];
 }
 
 - (NSInteger)readByte
@@ -59,14 +64,26 @@
     if (length < 0) return nil;
     if (length == 0) return [NSData data];
     if (![self mayRead:length]) return nil;
+    return [self readDataLength:(NSUInteger)length];
+}
+
+- (NSData *)readDataLength:(NSUInteger)length
+{
     NSData *data = [[NSData alloc] initWithBytes:_current length:(NSUInteger)length];
-    _current += length;
+    _current += length;    
     return data;
+}
+
+- (NSString *)readStringLength:(NSUInteger)length
+{
+    NSData *data = [self readDataLength:length];
+    if (!data) return nil;
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 - (NSData *)readVariable65535Bytes
 {
-    NSInteger length = [self readShort];
+    NSInteger length = [self readUnsignedShort];
     if (length < 0) return nil;
     if (length == 0) return [NSData data];
     if (![self mayRead:length]) return nil;

@@ -22,4 +22,8 @@
 - (void)writeBigEndianShort:(uint16_t)aShort;
 - (void)writeBigEndianInteger:(uint32_t)anInteger;
 - (void)writeBigEndianLong:(uint64_t)aLong;
+- (void)writeVar255Bytes:(NSData *)data;
+- (void)writeVar65535Bytes:(NSData *)data;
+- (void)write255UTFString:(NSString *)string;
+- (void)write65535UTFString:(NSString *)string;
 @end

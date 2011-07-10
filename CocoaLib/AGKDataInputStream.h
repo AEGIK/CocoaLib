@@ -13,7 +13,11 @@
 
 - (id)initWithData:(NSData *)data;
 - (void)reset;
+- (BOOL)hasData;
+- (NSData *)readDataLength:(NSUInteger)length;
+- (NSString *)readStringLength:(NSUInteger)length;
 - (NSInteger)readByte;
+- (NSInteger)readUnsignedShort;
 - (NSData *)readVariable255Bytes;
 - (NSData *)readVariable65535Bytes;
 - (NSString *)readTinyString;

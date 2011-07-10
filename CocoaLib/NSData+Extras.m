@@ -104,5 +104,28 @@ inline static unsigned char hexCharToNibble(char c) {
     array[7] = aLong & 0xFF;
     [self appendBytes:array length:8];        
 }
+
+- (void)writeVar255Bytes:(NSData *)data
+{
+    [self writeByte:[data length]];
+    [self appendData:data];    
+}
+
+- (void)writeVar65535Bytes:(NSData *)data
+{
+    [self writeBigEndianShort:(uint16_t)[data length]];
+    [self appendData:data];    
+}
+- (void)write255UTFString:(NSString *)string
+{
+    [self writeVar255Bytes:[string dataUsingEncoding:NSUTF8StringEncoding]];
+}
+
+- (void)write65535UTFString:(NSString *)string
+{
+    [self writeVar65535Bytes:[string dataUsingEncoding:NSUTF8StringEncoding]];
+    
+}
+
 @end
 

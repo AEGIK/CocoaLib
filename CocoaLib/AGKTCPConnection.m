@@ -160,7 +160,6 @@
 - (void)streamClosed
 {
     if (![self isOpen]) return;
-    NSLog(@"Stream shutdown");
     if ([[self delegate] respondsToSelector:@selector(connection:closed:)]) {
         [[self delegate] connection:self closed:AGKTCPConnectionCloseStreamClosed];
     }
@@ -194,7 +193,6 @@
 - (void)streamOpened
 {
     if ([self isConnected]) return;
-    NSLog(@"Stream open");
     [self setConnected:YES];
     if ([[self delegate] respondsToSelector:@selector(connectionOpened:)]) {
         [[self delegate] connectionOpened:self];
@@ -424,7 +422,6 @@
 
 - (void)calculateLength
 {
-    NSLog(@"Calc %@", [self payload]);
     if ([[self payload] length] < [self headerSize]) return;
     uint8_t *bytes = (uint8_t *)[[self payload] mutableBytes];
     NSUInteger length = 0;
@@ -432,14 +429,12 @@
         length <<= 8;
         length |= bytes[i];
     }
-    NSLog(@"Length: %d", length);
     [self setLength:length];
 }
 
 - (NSData *)assemblePacket:(NSData *)data
 {
     if (![self length]) {
-        NSLog(@"Go! %@", [self payload]);
         [[self payload] appendData:data];
         [self calculateLength];
         if (![self length]) return nil;

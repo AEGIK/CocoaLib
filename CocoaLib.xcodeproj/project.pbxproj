@@ -73,6 +73,9 @@
 		A9C1961D13C0F900001BDBC8 /* AGKDataInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C1961B13C0F900001BDBC8 /* AGKDataInputStream.m */; };
 		A9D1283913B3EF6A0036FE54 /* AGKTCPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A9D1283713B3EF6A0036FE54 /* AGKTCPConnection.h */; };
 		A9D1283A13B3EF6A0036FE54 /* AGKTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D1283813B3EF6A0036FE54 /* AGKTCPConnection.m */; };
+		A9F8AD7E13CB707A00B5E48B /* AGKArgosSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = A9F8AD7C13CB707900B5E48B /* AGKArgosSerialization.h */; };
+		A9F8AD7F13CB707A00B5E48B /* AGKArgosSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F8AD7D13CB707900B5E48B /* AGKArgosSerialization.m */; };
+		A9F8AD8613CBA49800B5E48B /* AGKArgosSerializerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F8AD8513CBA49800B5E48B /* AGKArgosSerializerTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +152,10 @@
 		A9D1283713B3EF6A0036FE54 /* AGKTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKTCPConnection.h; sourceTree = "<group>"; };
 		A9D1283813B3EF6A0036FE54 /* AGKTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKTCPConnection.m; sourceTree = "<group>"; };
 		A9D1283B13B3EF890036FE54 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		A9F8AD7C13CB707900B5E48B /* AGKArgosSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKArgosSerialization.h; sourceTree = "<group>"; };
+		A9F8AD7D13CB707900B5E48B /* AGKArgosSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKArgosSerialization.m; sourceTree = "<group>"; };
+		A9F8AD8413CBA49800B5E48B /* AGKArgosSerializerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKArgosSerializerTests.h; sourceTree = "<group>"; };
+		A9F8AD8513CBA49800B5E48B /* AGKArgosSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKArgosSerializerTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +259,8 @@
 				A9D1283813B3EF6A0036FE54 /* AGKTCPConnection.m */,
 				A90B743B13B8B635003B70CB /* AGKSecurity.h */,
 				A90B743C13B8B635003B70CB /* AGKSecurity.m */,
+				A9F8AD7C13CB707900B5E48B /* AGKArgosSerialization.h */,
+				A9F8AD7D13CB707900B5E48B /* AGKArgosSerialization.m */,
 			);
 			path = CocoaLib;
 			sourceTree = "<group>";
@@ -280,6 +289,8 @@
 				A90B744913B8D196003B70CB /* AGKSecurityTest.m */,
 				A94D3BB113B9C92C008F6A92 /* NSDataExtrasTest.h */,
 				A94D3BB213B9C92C008F6A92 /* NSDataExtrasTest.m */,
+				A9F8AD8413CBA49800B5E48B /* AGKArgosSerializerTests.h */,
+				A9F8AD8513CBA49800B5E48B /* AGKArgosSerializerTests.m */,
 			);
 			path = CocoaLibTests;
 			sourceTree = "<group>";
@@ -323,6 +334,7 @@
 				A9D1283913B3EF6A0036FE54 /* AGKTCPConnection.h in Headers */,
 				A90B743D13B8B635003B70CB /* AGKSecurity.h in Headers */,
 				A9C1961C13C0F900001BDBC8 /* AGKDataInputStream.h in Headers */,
+				A9F8AD7E13CB707A00B5E48B /* AGKArgosSerialization.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +457,7 @@
 				A9D1283A13B3EF6A0036FE54 /* AGKTCPConnection.m in Sources */,
 				A90B743E13B8B635003B70CB /* AGKSecurity.m in Sources */,
 				A9C1961D13C0F900001BDBC8 /* AGKDataInputStream.m in Sources */,
+				A9F8AD7F13CB707A00B5E48B /* AGKArgosSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +478,7 @@
 				A90B744A13B8D196003B70CB /* AGKSecurityTest.m in Sources */,
 				A90B744B13B8D6EF003B70CB /* AGKSecurity.m in Sources */,
 				A94D3BB313B9C92C008F6A92 /* NSDataExtrasTest.m in Sources */,
+				A9F8AD8613CBA49800B5E48B /* AGKArgosSerializerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
