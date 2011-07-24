@@ -22,7 +22,7 @@ __strong AGKRepeatingEventCentral *sharedInstance = nil;
 @interface AGKRepeatingEventCentral() {}
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) unsigned long long counter;
-@property (nonatomic, weak) NSArray *observers;
+@property (nonatomic, strong) NSArray *observers;
 @end
 
 @implementation AGKRepeatingEventCentral
@@ -51,7 +51,7 @@ __strong AGKRepeatingEventCentral *sharedInstance = nil;
     for (NSMutableArray *array in [self observers]) {
         if (![array count]) continue;
         for (AGKRepeatingEntry *entry in [NSArray arrayWithArray:array]) {
-            if ([entry observer] == observer) {
+            if ([entry observer] == observer || ![entry observer]) {
                 [array removeObject:entry];
             }
         }

@@ -74,14 +74,19 @@
     return self;
 }
 
+- (size_t)byteSize
+{
+    return SecKeyGetBlockSize([self secKey]);
+}
+
 - (size_t)maxDecryptedSize
 {
-    return SecKeyGetBlockSize([self secKey]) - 11;
+    return [self byteSize] - 11;
 }
 
 - (size_t)maxEncryptedSize
 {
-    return SecKeyGetBlockSize([self secKey]);
+    return [self byteSize];
 }
 
 - (void)dealloc
@@ -142,6 +147,31 @@
     return [NSData dataWithBytes:&bytes[i] length:bytesLen - i];
 }
 
+- (NSData *)plainRsaEncrypt:(RSAKey *)key
+{
+    size_t requiredSize = [key maxEncryptedSize];
+    if ([self length] != requiredSize) {
+        NSLog(@"Failed encryption, data does not match key size");
+        return nil;
+    }
+    uint8_t *encryptedData = calloc(requiredSize, sizeof(uint8_t));
+    size_t cipherLength = requiredSize;
+    NSData *result = nil;
+    OSStatus status = SecKeyEncrypt([key secKey], kSecPaddingNone, (const uint8_t *)[self bytes], [self length], encryptedData, &cipherLength);
+    if (cipherLength != requiredSize) {
+        NSLog(@"Encryption surprisingly changed output size");
+        free(encryptedData);
+        return nil;
+    }
+    if (status == noErr) {
+        result = [[NSData alloc] initWithBytes:encryptedData length:requiredSize];
+    } else {
+        NSLog(@"Failed encryption %ld %d", status, [self length]);
+    }
+    free(encryptedData);
+    return result;
+}
+
 - (NSData *)rsaEncrypt:(RSAKey *)key
 {
     if ([self length] > [key maxDecryptedSize]) {
@@ -151,7 +181,7 @@
     uint8_t *encryptedData = calloc([key maxEncryptedSize], sizeof(uint8_t));
     size_t cipherLength = [key maxEncryptedSize];
     NSData *result = nil;
-    OSStatus status = SecKeyEncrypt([key secKey], kSecPaddingPKCS1, (const uint8_t *)[self bytes], [self length], encryptedData, &cipherLength);
+    OSStatus status = SecKeyEncrypt([key secKey], kSecPaddingOAEP, (const uint8_t *)[self bytes], [self length], encryptedData, &cipherLength);
     if (status == noErr) {
         result = [[NSData alloc] initWithBytes:encryptedData length:cipherLength];
     } else {
@@ -176,9 +206,9 @@
     CCHmacUpdate(&context, [self bytes], [self length]);
     va_list list;
     va_start(list, signKey);
-    NSData *aData = nil;
-    while ((aData = va_arg(list, NSData *)) != nil) {
-        CCHmacUpdate(&context, [aData bytes], [aData length]);
+    void *aData = nil;
+    while ((aData = va_arg(list, void *)) != nil) {
+        CCHmacUpdate(&context, [(__bridge NSData *)aData bytes], [(__bridge NSData *)aData length]);
     }
     uint8_t *mac = malloc(CC_SHA256_DIGEST_LENGTH);
     CCHmacFinal(&context, mac);

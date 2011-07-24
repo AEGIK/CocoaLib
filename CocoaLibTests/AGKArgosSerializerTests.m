@@ -10,8 +10,8 @@
 #import "AGKArgosSerialization.h"
 
 @interface AGKArgosSerializerTests() {}
-@property (nonatomic, strong) AGKArgosSerialize *serializer;
-@property (nonatomic, strong) AGKArgosDeserialize *deserializer;
+@property (nonatomic, strong) AGKArgosSerializer *serializer;
+@property (nonatomic, strong) AGKArgosDeserializer *deserializer;
 @end
 
 @implementation AGKArgosSerializerTests
@@ -20,20 +20,24 @@
 
 - (void)setUp
 {
-	[self setSerializer:[[AGKArgosSerialize alloc] init]];
-    [self setDeserializer:[[AGKArgosDeserialize alloc] init]];
+	[self setSerializer:[[AGKArgosSerializer alloc] init]];
+    [self setDeserializer:[[AGKArgosDeserializer alloc] init]];
 }
 
 - (void)compare:(NSObject *)object bytes:(uint8_t*) bytes length:(int)length
 {
-	NSData *data = [[self serializer] serialize:object];
+    [[self serializer] reset];
+    [[self serializer] add:object];
+	NSData *data = [[self serializer] serialize];
 	NSData *expectedData = [NSData dataWithBytes:bytes length:length];
 	STAssertTrue([data isEqualToData:expectedData], @"Data mismatch was %@ - expected %@ for %@", data, expectedData, object);
 }
 
 - (void)compareSerialize:(NSObject *)object
 {
-	NSData *serialized = [[self serializer] serialize:object];
+    [[self serializer] reset];
+    [[self serializer] add:object];
+	NSData *serialized = [[self serializer] serialize];
 	NSObject *deserialized = [[self deserializer] deserialize:serialized];
 	STAssertTrue([deserialized isEqual:object], @"[%@] Failed to serialize (%@) %@", serialized, object, deserialized);
 }

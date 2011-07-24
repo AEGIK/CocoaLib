@@ -15,20 +15,18 @@ enum Constants
     MaxSymbolLength = 128,
 };
 
-@interface AGKArgosSerialize() {}
+@interface AGKArgosSerializer() {}
 @property (nonatomic, strong) NSMutableDictionary *symbolList;
 @property (nonatomic, assign) NSUInteger maxSymbols;
 @property (nonatomic, strong) NSMutableData *currentData;
 @end
 
-@interface AGKArgosDeserialize() {}
-- (uint64_t)readUnsignedInteger:(int)bytes;
+@interface AGKArgosDeserializer() {}
 - (id)deserialize;
-@property (nonatomic, strong) AGKDataInputStream *stream; 
 @property (nonatomic, strong) NSMutableDictionary *symbolList;
 @end
 
-@implementation AGKArgosSerialize
+@implementation AGKArgosSerializer
 
 @synthesize symbolList = _symbolList, maxSymbols = _maxSymbols, currentData = _currentData;
 
@@ -269,7 +267,7 @@ enum Constants
 	}
 }
 
-- (void)begin
+- (void)reset
 {
 	[self setCurrentData:[[NSMutableData alloc] init]];	
 }
@@ -284,14 +282,14 @@ enum Constants
 
 - (NSData *)serialize:(NSObject *)object
 {
-	[self begin];
+	[self reset];
 	[self add:object];
 	return [self serialize];
 }
 
 @end
 
-@implementation AGKArgosDeserialize
+@implementation AGKArgosDeserializer
 
 @synthesize symbolList = _symbolList, stream = _stream;
 
@@ -387,6 +385,7 @@ enum Constants
 	}
 	return dictionary;
 }
+
 - (id)deserialize
 {
     if (![[self stream] hasData]) return nil;
@@ -464,12 +463,17 @@ enum Constants
 	return nil;
 }
 
-- (id)deserialize:(NSData *)data
+- (id)deserializeStream:(AGKDataInputStream *)stream
 {
-    [self setStream:[[AGKDataInputStream alloc] initWithData:data]];
+    [self setStream:stream];
 	id result = [self deserialize];
     [self setStream:nil];
     return result;
+}
+
+- (id)deserialize:(NSData *)data
+{
+    return [self deserializeStream:[[AGKDataInputStream alloc] initWithData:data]];
 }
 
 @end

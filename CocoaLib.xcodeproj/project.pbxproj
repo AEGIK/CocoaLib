@@ -67,6 +67,8 @@
 		A9396B1D13A48A53005BA2C8 /* AGKTests.h in Headers */ = {isa = PBXBuildFile; fileRef = A9396B1B13A48A53005BA2C8 /* AGKTests.h */; };
 		A9396B1F13A48AF8005BA2C8 /* AGKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A9396B1C13A48A53005BA2C8 /* AGKTests.m */; };
 		A94D3BB313B9C92C008F6A92 /* NSDataExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D3BB213B9C92C008F6A92 /* NSDataExtrasTest.m */; };
+		A9A97DDC13DCA64300149852 /* AGKArgosConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A9A97DDA13DCA64300149852 /* AGKArgosConnection.h */; };
+		A9A97DDD13DCA64300149852 /* AGKArgosConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A97DDB13DCA64300149852 /* AGKArgosConnection.m */; };
 		A9BD713213AE28F6007F0C08 /* NSStringExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BD713113AE28F6007F0C08 /* NSStringExtrasTest.m */; };
 		A9BD713413AE297B007F0C08 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = A933781213AD2DFE003E619F /* NSString+URLEncode.m */; };
 		A9C1961C13C0F900001BDBC8 /* AGKDataInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C1961A13C0F900001BDBC8 /* AGKDataInputStream.h */; };
@@ -145,6 +147,8 @@
 		A9396B1C13A48A53005BA2C8 /* AGKTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKTests.m; sourceTree = "<group>"; };
 		A94D3BB113B9C92C008F6A92 /* NSDataExtrasTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataExtrasTest.h; sourceTree = "<group>"; };
 		A94D3BB213B9C92C008F6A92 /* NSDataExtrasTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataExtrasTest.m; sourceTree = "<group>"; };
+		A9A97DDA13DCA64300149852 /* AGKArgosConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKArgosConnection.h; sourceTree = "<group>"; };
+		A9A97DDB13DCA64300149852 /* AGKArgosConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKArgosConnection.m; sourceTree = "<group>"; };
 		A9BD713013AE28F6007F0C08 /* NSStringExtrasTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringExtrasTest.h; sourceTree = "<group>"; };
 		A9BD713113AE28F6007F0C08 /* NSStringExtrasTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringExtrasTest.m; sourceTree = "<group>"; };
 		A9C1961A13C0F900001BDBC8 /* AGKDataInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKDataInputStream.h; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 				A90B743C13B8B635003B70CB /* AGKSecurity.m */,
 				A9F8AD7C13CB707900B5E48B /* AGKArgosSerialization.h */,
 				A9F8AD7D13CB707900B5E48B /* AGKArgosSerialization.m */,
+				A9A97DDA13DCA64300149852 /* AGKArgosConnection.h */,
+				A9A97DDB13DCA64300149852 /* AGKArgosConnection.m */,
 			);
 			path = CocoaLib;
 			sourceTree = "<group>";
@@ -335,6 +341,7 @@
 				A90B743D13B8B635003B70CB /* AGKSecurity.h in Headers */,
 				A9C1961C13C0F900001BDBC8 /* AGKDataInputStream.h in Headers */,
 				A9F8AD7E13CB707A00B5E48B /* AGKArgosSerialization.h in Headers */,
+				A9A97DDC13DCA64300149852 /* AGKArgosConnection.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +465,7 @@
 				A90B743E13B8B635003B70CB /* AGKSecurity.m in Sources */,
 				A9C1961D13C0F900001BDBC8 /* AGKDataInputStream.m in Sources */,
 				A9F8AD7F13CB707A00B5E48B /* AGKArgosSerialization.m in Sources */,
+				A9A97DDD13DCA64300149852 /* AGKArgosConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,7 +521,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -546,7 +554,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -570,6 +578,7 @@
 				DSTROOT = /tmp/CocoaLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CocoaLib/CocoaLib-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
@@ -586,6 +595,7 @@
 				DSTROOT = /tmp/CocoaLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CocoaLib/CocoaLib-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",

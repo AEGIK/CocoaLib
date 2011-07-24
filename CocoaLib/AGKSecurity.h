@@ -11,6 +11,7 @@
 
 @interface RSAKey : NSObject {}
 - (id)initWithData:(NSData *)data;
+- (size_t)byteSize;
 @end
 
 @interface NSData (AGKSecurity)
@@ -21,6 +22,7 @@
 - (NSData *)aesDecryptUsingKey:(NSData *)key sha256SignedUsing:(NSData *)signedKey;
 - (NSData *)aesEncryptUsingKey:(NSData *)key sha256SignedUsing:(NSData *)signedKey;
 - (NSData *)rsaEncrypt:(RSAKey *)key;
+- (NSData *)plainRsaEncrypt:(RSAKey *)key;
 - (NSData *)rsaEncryptWithSha256:(RSAKey *)key;
 - (NSData *)hmacSHA256:(NSData *)signKey, ... NS_REQUIRES_NIL_TERMINATION;
 - (NSData *)sha256;

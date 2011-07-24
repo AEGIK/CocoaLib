@@ -38,18 +38,18 @@ inline static unsigned char hexCharToNibble(char c) {
     size_t totalSize = [data length];
     va_list list;
     va_start(list, data);
-    NSData *aData;
-    while ((aData = va_arg(list, NSData *)) != nil) {
-        totalSize += [aData length];
+    void *aData;
+    while ((aData = va_arg(list, void *)) != nil) {
+        totalSize += [(__bridge NSData *)aData length];
     }
     va_end(list);
     void *result = malloc(totalSize);
     [data getBytes:result length:[data length]];
     va_start(list, data);
     void *current = result + [data length];
-    while ((aData = va_arg(list, NSData *)) != nil) {
-        [aData getBytes:current length:[aData length]];
-        current += [aData length];
+    while ((aData = va_arg(list, void *)) != nil) {
+        [(__bridge NSData *)aData getBytes:current length:[(__bridge NSData *)aData length]];
+        current += [(__bridge NSData *)aData length];
     }
     va_end(list);
     return [[NSData alloc] initWithBytesNoCopy:result length:totalSize freeWhenDone:YES];

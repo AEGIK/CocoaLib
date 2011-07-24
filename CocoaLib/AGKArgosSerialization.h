@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class AGKDataInputStream;
+
 typedef enum _AGKArgosProtocol
 {
 	AGKArgosProtocolInt00 = 0x00,
@@ -44,17 +46,17 @@ typedef enum _AGKArgosProtocol
     AGKArgosProtocolByteArrayVar65535 = 0xFF,
 } AGKArgosProtocol;
 
-@interface AGKArgosSerialize : NSObject {}
-
-- (void)writeInteger:(int)byteWidth value:(int64_t)value;
-- (void)begin;
-- (void)add:(id)object;
+@interface AGKArgosSerializer : NSObject {}
+- (void)reset;
+- (void)add:(NSObject *)object;
 - (NSData *)serialize;
-- (NSData *)serialize:(NSObject *)object;
-
+- (void)writeInteger:(int)byteWidth value:(int64_t)value;
 @end
 
-@interface AGKArgosDeserialize : NSObject {}
+@interface AGKArgosDeserializer : NSObject {}
+- (uint64_t)readUnsignedInteger:(int)bytes;
 - (id)deserialize:(NSData *)data;
-
+- (id)deserialize;
+- (id)deserializeStream:(AGKDataInputStream *)stream;
+@property (nonatomic, strong) AGKDataInputStream *stream; 
 @end
