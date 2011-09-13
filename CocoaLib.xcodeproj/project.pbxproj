@@ -390,6 +390,7 @@
 		A9396ADD13A41443005BA2C8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "AEGIK AB";
 			};
 			buildConfigurationList = A9396AE013A41443005BA2C8 /* Build configuration list for PBXProject "CocoaLib" */;

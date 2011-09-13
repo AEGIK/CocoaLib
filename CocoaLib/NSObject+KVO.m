@@ -60,7 +60,10 @@
 {
 	id payload = [self sendValue] ? [change objectForKey:NSKeyValueChangeNewKey] : change;
 	if (payload == [NSNull null]) payload = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	[[self observer] performSelector:(SEL)context withObject:payload];
+#pragma clang diagnostic pop
 }
 
 - (void)dealloc 

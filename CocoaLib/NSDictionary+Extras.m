@@ -15,7 +15,7 @@
 	id object = [self objectForKey:key];
 	SEL selector = @selector(boolValue);
 	if (!object || ![object respondsToSelector:selector]) return NO;
-	return [object performSelector:selector] ? YES : NO;
+	return [object performSelector:@selector(boolValue)] ? YES : NO;
 }
 
 - (NSUInteger)unsignedIntegerForKey:(id)key {

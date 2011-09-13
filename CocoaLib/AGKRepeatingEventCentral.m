@@ -64,7 +64,11 @@ __strong AGKRepeatingEventCentral *sharedInstance = nil;
     if (![array count]) return;
     NSArray *copy = [[NSArray alloc] initWithArray:array];
     for (AGKRepeatingEntry *entry in copy) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [[entry observer] performSelector:[entry selector] withObject:nil];
+#pragma clang diagnostic pop
+
     }
 }
 
